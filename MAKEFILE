@@ -1,0 +1,7 @@
+all: installer driver
+	
+installer:
+	copy src\installer\install.ps1 bin
+
+driver:
+	build
