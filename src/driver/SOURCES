@@ -2,4 +2,4 @@ C_DEFINES=/DWIN2K=1
 TARGETNAME=kblayout
 TARGETPATH=../../bin
 TARGETTYPE=DRIVER
-SOURCES=kblayout.c
+SOURCES=mapper.c kblayout.c

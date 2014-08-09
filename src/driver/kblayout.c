@@ -4,6 +4,10 @@
 #include "stdarg.h"
 #include "stdio.h"
 #include "ntddkbd.h"
+#include "mapper.h"
+#include "layouts/dvorak.c"
+
+USHORT KBLAYOUT_CURRENT_LAYOUT[MAX_SCANCODE] = {0};
 
 NTSTATUS
 DriverEntry(
@@ -12,6 +16,7 @@ DriverEntry(
 	)
 {
 	ULONG i;
+	size_t layoutSize;
 
 	DbgPrint("kblayout.sys: DriverEntry\n");
 
@@ -27,6 +32,9 @@ DriverEntry(
 
 	DriverObject->DriverUnload = KbLayoutUnload;
 	DriverObject->DriverExtension->AddDevice = KbLayoutAddDevice;
+
+	layoutSize = sizeof(KBLAYOUT_LAYOUT_DVORAK) / sizeof(KBLAYOUT_LAYOUT_DVORAK[0]);
+	KbLayoutMapFromQwerty(KBLAYOUT_CURRENT_LAYOUT, KBLAYOUT_LAYOUT_DVORAK, layoutSize);
 
 	return STATUS_SUCCESS;
 }
@@ -188,7 +196,13 @@ NTSTATUS KbLayoutReadComplete(
 		numKeys = (int) (Irp->IoStatus.Information / sizeof(KEYBOARD_INPUT_DATA));
 
 		for(i = 0; i < numKeys; i++){
-			keyData[i].MakeCode = (USHORT) 0x1E;
+			USHORT scancode = keyData[i].MakeCode;
+			if (scancode < MAX_SCANCODE) {
+				USHORT mapped = KBLAYOUT_CURRENT_LAYOUT[scancode];
+				if(mapped != 0){
+					keyData[i].MakeCode = mapped;
+				}
+			}
 		}
 
 	}

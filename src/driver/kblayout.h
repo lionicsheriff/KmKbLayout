@@ -1,3 +1,5 @@
+#define MAX_SCANCODE 200 // arbitrary number, determines the largest scan code supported
+
 typedef struct _DEVICE_EXTENSION
 {
     PDEVICE_OBJECT  TopOfStack;
