@@ -5,6 +5,7 @@
 #include "stdio.h"
 #include "ntddkbd.h"
 #include "layouts/dvorak.c"
+#include "configuration.c"
 
 USHORT KBLAYOUT_CURRENT_LAYOUT[200] = {0};
 
@@ -31,7 +32,7 @@ DriverEntry(
 	DriverObject->DriverUnload = KbLayoutUnload;
 	DriverObject->DriverExtension->AddDevice = KbLayoutAddDevice;
 
-	KbLayoutLoadLayoutDvorak(KBLAYOUT_CURRENT_LAYOUT);
+	KbLayoutRegLoad(KBLAYOUT_CURRENT_LAYOUT);
 
 	return STATUS_SUCCESS;
 }

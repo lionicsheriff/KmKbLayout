@@ -65,7 +65,7 @@ function Parse-KLC() {
             #       last one will be used.
             #       I haven't found a layout that does this
             #       yet though.
-            $scanCodes[$keyName] = $scanCode
+            $scanCodes[$keyName] = $scanCode # switch to decimal so it can be saved into the registry easier
         }
     }    
     
@@ -95,7 +95,7 @@ function Map-Layouts(){
           
      $map = @{}     
      foreach($key in $InputLayout.GetEnumerator()){      
-        if ($OutputLayout.Contains($key.Name)) {
+        if ($OutputLayout.Contains($key.Name)) {                    
             $map[$key.Value] = $OutputLayout[$key.Name]
         } else {
             $map[$key.Value] = $key.Value
@@ -119,18 +119,16 @@ function Write-LayoutMap(){
      # Output raw c right now, but it will be changed to a real config format later
          
      Out-File -FilePath $outputPath -InputObject @"
-VOID KbLayoutLoadLayout$LayoutName(USHORT layout[]);
-VOID KbLayoutLoadLayout$LayoutName(USHORT layout[])
-{
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\kblayout\Layouts]
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\kblayout\Layouts\$LayoutName\Scancodes]
 "@
      
-     foreach ($map in $LayoutMap.GetEnumerator()){
-        Out-File -Append -FilePath $outputPath -InputObject "    layout[0x$($map.Name)] = 0x$($map.Value);"
+     foreach ($map in $LayoutMap.GetEnumerator()){        
+        Out-File -Append -FilePath $outputPath -InputObject "`"0x$($map.Name)`"=dword:$($map.Value)"
      }
-        
-     Out-File -Append -FilePath $outputPath -InputObject @" 
-}
-"@
 }
 
 $outputLayout = Parse-KLC $OutputLayoutPath

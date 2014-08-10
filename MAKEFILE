@@ -1,7 +1,13 @@
-all: installer driver
+all: installer klc2kblayout layouts driver
 	
 installer:
 	copy src\installer\install.ps1 bin
+
+layouts:
+	xcopy /Y /I /S src\layouts bin\layouts\
+
+klc2kblayout:
+	copy src\klc2kblayout\klc2kblayout.ps1 bin
 
 driver:
 	cd src\driver
