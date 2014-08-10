@@ -1,5 +1,11 @@
+# build junk
 bin/
 obj*/
 *.log
 *.err
 *.wrn
+
+# don't track Microsoft Keyboard Layout Creator files
+# they should be converted into kblayout's format
+*.klc
+

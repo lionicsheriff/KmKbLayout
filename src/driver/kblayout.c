@@ -4,10 +4,9 @@
 #include "stdarg.h"
 #include "stdio.h"
 #include "ntddkbd.h"
-#include "mapper.h"
 #include "layouts/dvorak.c"
 
-USHORT KBLAYOUT_CURRENT_LAYOUT[MAX_SCANCODE] = {0};
+USHORT KBLAYOUT_CURRENT_LAYOUT[200] = {0};
 
 NTSTATUS
 DriverEntry(
@@ -33,8 +32,7 @@ DriverEntry(
 	DriverObject->DriverUnload = KbLayoutUnload;
 	DriverObject->DriverExtension->AddDevice = KbLayoutAddDevice;
 
-	layoutSize = sizeof(KBLAYOUT_LAYOUT_DVORAK) / sizeof(KBLAYOUT_LAYOUT_DVORAK[0]);
-	KbLayoutMapFromQwerty(KBLAYOUT_CURRENT_LAYOUT, KBLAYOUT_LAYOUT_DVORAK, layoutSize);
+	KbLayoutLoadLayoutDvorak(KBLAYOUT_CURRENT_LAYOUT);
 
 	return STATUS_SUCCESS;
 }

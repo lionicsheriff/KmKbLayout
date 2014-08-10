@@ -1,3 +1,6 @@
+/* DEPRECATED
+ * mapper due for a rewrite so it can load keyboards from a file
+*/
 VOID
 KbLayoutMapFromQwerty(
 	USHORT layout[],
