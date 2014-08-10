@@ -17,7 +17,6 @@ DriverEntry(
 	ULONG i;
 	size_t layoutSize;
 
-	DbgPrint("kblayout.sys: DriverEntry\n");
 
 	// Default to passing through all the entry points
 	for (i = 0; i < IRP_MJ_MAXIMUM_FUNCTION; i++) {
@@ -48,7 +47,6 @@ KbLayoutAddDevice(
 	PDEVICE_OBJECT device;
 	NTSTATUS status = STATUS_SUCCESS;
 
-	DbgPrint("kblayout.sys: add\n");
 	// Create the filter driver
 	status = IoCreateDevice(Driver,                   // DriverObject
 							sizeof(DEVICE_EXTENSION), // DeviceExtensionSize
@@ -90,7 +88,6 @@ KbLayoutDispatchPNP(
 	KIRQL oldIrql;
 	KEVENT ekent;
 
-	DbgPrint("kblayout.sys: pnp\n");
 	devExt = (PDEVICE_EXTENSION) DeviceObject->DeviceExtension;
 	irpStack = IoGetCurrentIrpStackLocation(Irp);
 
@@ -122,7 +119,6 @@ KbLayoutDispatchPower(
 	PDEVICE_EXTENSION devExt;
 	devExt = (PDEVICE_EXTENSION) DeviceObject->DeviceExtension;
 
-	DbgPrint("kblayout.sys: power\n");
 	PoStartNextPowerIrp(Irp);
 	IoSkipCurrentIrpStackLocation(Irp);
 	return PoCallDriver(devExt->TopOfStack, Irp);
@@ -133,7 +129,6 @@ KbLayoutUnload(
 	IN PDRIVER_OBJECT Driver
 	)
 {
-	DbgPrint("kblayout.sys: unload\n");
 	UNREFERENCED_PARAMETER(Driver); // Suppress compiler warning re Driver not being used
 }
 
@@ -146,7 +141,6 @@ KbLayoutDispatchRead(
 	PIO_STACK_LOCATION currentIrpStack;
 	PIO_STACK_LOCATION nextIrpStack;
 
-	DbgPrint("kblayout.sys: read\n");
 	devExt=(PDEVICE_EXTENSION) DeviceObject->DeviceExtension;
 	currentIrpStack = IoGetCurrentIrpStackLocation(Irp);
 	nextIrpStack = IoGetNextIrpStackLocation(Irp);
@@ -172,7 +166,6 @@ NTSTATUS KbLayoutDispatchPassthrough(
 	PDEVICE_EXTENSION devExt;
 	devExt=(PDEVICE_EXTENSION) DeviceObject->DeviceExtension;
 
-	DbgPrint("kblayout.sys: passing through\n");
 	IoSkipCurrentIrpStackLocation(Irp);
 	return IoCallDriver(devExt->TopOfStack, Irp);
 }
@@ -186,7 +179,6 @@ NTSTATUS KbLayoutReadComplete(
 	PIO_STACK_LOCATION irpSp;
 	PKEYBOARD_INPUT_DATA keyData;
 	int i, numKeys;
-	DbgPrint("kblayout.sys: keypressed :)\n");
 
 	irpSp = IoGetCurrentIrpStackLocation(Irp);
 	if(NT_SUCCESS(Irp->IoStatus.Status)) {
