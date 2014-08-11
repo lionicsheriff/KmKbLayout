@@ -4,7 +4,6 @@
 #include "stdarg.h"
 #include "stdio.h"
 #include "ntddkbd.h"
-#include "layouts/dvorak.c"
 #include "configuration.h"
 
 USHORT KBLAYOUT_CURRENT_LAYOUT[200] = {0};
