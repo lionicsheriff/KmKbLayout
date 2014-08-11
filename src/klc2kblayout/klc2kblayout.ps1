@@ -122,6 +122,7 @@ function Write-LayoutMap(){
 Windows Registry Editor Version 5.00
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\kblayout\Layouts]
+"Selected Layout"="$LayoutName"
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\kblayout\Layouts\$LayoutName\Scancodes]
 "@
