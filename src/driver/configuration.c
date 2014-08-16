@@ -66,7 +66,6 @@ KbLayoutRegLoadLayout(
     regQueries[0].Flags = RTL_QUERY_REGISTRY_NOEXPAND; // expanding is unsafe and shouldn't be used in kernel mode
     regQueries[0].Name = NULL; // all values
     RtlQueryRegistryValues(RTL_REGISTRY_SERVICES, layoutKeyBuffer, regQueries, CurrentLayout, NULL);
-    DbgPrint("Loading layout (2)\n");
 }
 
 NTSTATUS
@@ -84,8 +83,6 @@ KbLayoutRegLoadScanCode(
     PWSTR valueBuffer;
     UNREFERENCED_PARAMETER(EntryContext);
 
-
-    DbgPrint("Loading scancode\n");
     // only use values that are a valid scancode map (hex->hex)
     // we are ignoring 0 as it is the default value and indicates that 
     // the string to number conversion failed. It also does not seem
@@ -95,7 +92,6 @@ KbLayoutRegLoadScanCode(
             && inputScan != 0){
             outputScan = ((PULONG) ValueData)[0];
             layout[inputScan] = (USHORT)outputScan;
-            DbgPrint("Mapping %i -> %i\n", inputScan, outputScan);
         }
     }
 
