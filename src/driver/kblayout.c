@@ -43,7 +43,6 @@ KbLayoutAddDevice(
     )
 {
     PDEVICE_EXTENSION devExt;
-    IO_ERROR_LOG_PACKET errorLogEntry;
     PDEVICE_OBJECT device;
     NTSTATUS status = STATUS_SUCCESS;
 
