@@ -10,6 +10,7 @@
 #define MAX_SCANCODE 200
 
 USHORT KBLAYOUT_CURRENT_LAYOUT[MAX_SCANCODE] = {0};
+LARGE_INTEGER KBLAYOUT_REGISTRY_COOKIE;
 
 NTSTATUS
 DriverEntry(
@@ -33,6 +34,7 @@ DriverEntry(
     DriverObject->DriverExtension->AddDevice = KbLayoutAddDevice; // attaches driver to device
 
     KbLayoutRegLoadConfig(KBLAYOUT_CURRENT_LAYOUT);
+    KbLayoutMonitorConfig(DriverObject, KBLAYOUT_CURRENT_LAYOUT, &KBLAYOUT_REGISTRY_COOKIE);
 
     return STATUS_SUCCESS;
 }
@@ -127,6 +129,8 @@ KbLayoutUnload(
     )
 {
     UNREFERENCED_PARAMETER(DriverObject); // Suppress compiler warning re Driver not being used
+
+    KbLayoutMonitorConfigUnload(KBLAYOUT_REGISTRY_COOKIE);
 }
 
 NTSTATUS

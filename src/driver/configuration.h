@@ -35,3 +35,41 @@ KbLayoutConvertUnicodeToInt(
     IN PWSTR StrVal,
     IN OUT int * IntVal
     );
+
+
+/**
+ *@brief Start watching the registry for changes to the config
+*/
+NTSTATUS
+KbLayoutMonitorConfig(
+    IN PDRIVER_OBJECT DriverObject,
+    IN USHORT CurrentLayout[],
+    OUT PLARGE_INTEGER Cookie
+    );
+
+/**
+ *@brief Update loaded configuration when the registry changes
+*/
+EX_CALLBACK_FUNCTION KmLayoutRegistryChanged;
+NTSTATUS
+KmLayoutRegistryChanged(
+  IN PVOID CallbackContext,
+  IN PVOID Argument1,
+  IN PVOID Argument2
+);
+
+/**
+ *@brief Stop watching the registry for changes to the config
+*/
+NTSTATUS
+KbLayoutMonitorConfigUnload(
+    IN LARGE_INTEGER Cookie
+    );
+
+/**
+ *@brief Check if a registry key is used as configuration
+*/
+BOOLEAN
+KbLayoutIsConfigKey(
+    IN PVOID RegistryObject
+    );
