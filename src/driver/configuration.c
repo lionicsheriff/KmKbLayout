@@ -2,13 +2,6 @@
 #include "ntddk.h"
 #include "configuration.h"
 #include "string.h"
-#define KBLAYOUT_POOL_TAG ' LBK'
-#define KBLAYOUT_REG_BASE L"\\kblayout\\Layouts"
-
-// the typecheck flags are not defined until WDK8
-// however they are supported in Windows XP+ via Windows Update
-#define RTL_QUERY_REGISTRY_TYPECHECK 0x00000100
-#define RTL_QUERY_REGISTRY_TYPECHECK_SHIFT 24
 
 const PCWSTR KBLAYOUT_REG_ALTITUDE = L"424274.001"; // loads near the top, not actually allocated to this project though
 
@@ -59,7 +52,7 @@ KbLayoutRegLoadLayout(
     // wipe the existing layout out
     // NOTE: this means that if the new layout does not exist, it will fallback to
     // passing through all scancodes.
-    RtlZeroMemory(CurrentLayout, sizeof(&CurrentLayout));
+    RtlZeroMemory(CurrentLayout, MAX_SCANCODE * sizeof(USHORT));
 
     // load the scancode key into the CurrentLayout
     regQueries[0].QueryRoutine = KbLayoutRegLoadScanCode;

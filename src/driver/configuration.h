@@ -1,3 +1,14 @@
+ //arbitrary number, must be > to the biggest scancode you want to accept
+#define MAX_SCANCODE 200
+
+#define KBLAYOUT_POOL_TAG ' LBK'
+#define KBLAYOUT_REG_BASE L"\\kblayout\\Layouts"
+
+// the typecheck flags are not defined until WDK8
+// however they are supported in Windows XP+ via Windows Update
+#define RTL_QUERY_REGISTRY_TYPECHECK 0x00000100
+#define RTL_QUERY_REGISTRY_TYPECHECK_SHIFT 24
+
 /**
  * @brief Load the current configuration from the registry
  * 

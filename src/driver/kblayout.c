@@ -6,9 +6,6 @@
 #include "ntddkbd.h"
 #include "configuration.h"
 
- //arbitrary number, must be > to the biggest scancode you want to accept
-#define MAX_SCANCODE 200
-
 USHORT KBLAYOUT_CURRENT_LAYOUT[MAX_SCANCODE] = {0};
 LARGE_INTEGER KBLAYOUT_REGISTRY_COOKIE;
 
