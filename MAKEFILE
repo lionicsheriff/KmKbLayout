@@ -9,6 +9,10 @@ layouts:
 klc2kblayout:
 	copy src\klc2kblayout\klc2kblayout.ps1 bin
 
+sign:
+	src\installer\selfsign.bat
+
 driver:
 	cd src\driver
 	build
+
